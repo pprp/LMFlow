@@ -5,7 +5,7 @@
 model_name_or_path=gpt2
 dataset_path=data/alpaca/train
 output_dir=output_models/finetune
-deepspeed_args="--master_port=11000"
+deepspeed_args="--master_port=11000 --include localhost:6"
 
 while [[ $# -ge 1 ]]; do
   key="$1"

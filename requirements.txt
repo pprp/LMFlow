@@ -1,6 +1,6 @@
-numpy==1.24.2
-datasets==2.10.1
-tokenizers==0.13.3
+numpy
+datasets
+tokenizers
 peft==0.4.0
 torch>=2.0.1
 wandb==0.14.0
