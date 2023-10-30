@@ -2,10 +2,11 @@
 # Please run this script under ${project_id} in project directory of
 
 # Parses arguments
-model_name_or_path=gpt2
-dataset_path=data/alpaca/train
+model_name_or_path=/data/yrb/tmp/Chat-Musician/model/checkpoints/pt_0920/llama2_origin_hf_dir
+# NousResearch/Llama-2-7b-chat-hf
+dataset_path=data/
 output_dir=output_models/finetune
-deepspeed_args="--master_port=11000 --include localhost:6"
+deepspeed_args="--master_port=11001 --include localhost:4"
 
 while [[ $# -ge 1 ]]; do
   key="$1"
@@ -44,7 +45,7 @@ deepspeed ${deepspeed_args} \
     --model_name_or_path ${model_name_or_path} \
     --dataset_path ${dataset_path} \
     --output_dir ${output_dir} --overwrite_output_dir \
-    --num_train_epochs 0.01 \
+    --num_train_epochs 1.5 \
     --learning_rate 1e-4 \
     --block_size 512 \
     --per_device_train_batch_size 1 \
