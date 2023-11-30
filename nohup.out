@@ -1,0 +1,52 @@
+[2023-11-29 15:26:04,666] [INFO] [real_accelerator.py:133:get_accelerator] Setting ds_accelerator to cuda (auto detect)
+[2023-11-29 15:26:05,920] [WARNING] [runner.py:196:fetch_hostfile] Unable to find hostfile, will proceed with training with local resources only.
+Detected CUDA_VISIBLE_DEVICES=0 but ignoring it because one or several of --include/--exclude/--num_gpus/--num_nodes cl args were used. If you want to use CUDA_VISIBLE_DEVICES don't pass any of these arguments to deepspeed.
+[2023-11-29 15:26:05,920] [INFO] [runner.py:555:main] cmd = /hpc2hdd/home/pdong212/.conda/envs/py39/bin/python -u -m deepspeed.launcher.launch --world_info=eyJsb2NhbGhvc3QiOiBbMF19 --master_addr=127.0.0.1 --master_port=11001 --enable_each_rank_log=None examples/finetune.py --model_name_or_path /hpc2hdd/JH_DATA/share/xliu886/xliu886_xliu886_share_models/Llama-2-13b-hf --dataset_path data/pretrain --output_dir output_models/pretrain --overwrite_output_dir --num_train_epochs 1.5 --learning_rate 1e-4 --block_size 512 --per_device_train_batch_size 1 --use_lora 1 --lora_r 8 --save_aggregated_lora 0 --deepspeed configs/ds_config_zero2.json --fp16 --run_name finetune_with_lora --validation_split_percentage 0 --logging_steps 20 --do_train --ddp_timeout 72000 --save_steps 5000 --dataloader_num_workers 1
+Traceback (most recent call last):
+  File "/hpc2hdd/home/pdong212/.conda/envs/py39/lib/python3.9/runpy.py", line 188, in _run_module_as_main
+    mod_name, mod_spec, code = _get_module_details(mod_name, _Error)
+  File "/hpc2hdd/home/pdong212/.conda/envs/py39/lib/python3.9/runpy.py", line 111, in _get_module_details
+    __import__(pkg_name)
+  File "/hpc2hdd/home/pdong212/.conda/envs/py39/lib/python3.9/site-packages/deepspeed/__init__.py", line 10, in <module>
+    import torch
+  File "/hpc2hdd/home/pdong212/.conda/envs/py39/lib/python3.9/site-packages/torch/__init__.py", line 1750, in <module>
+    from . import _meta_registrations
+  File "/hpc2hdd/home/pdong212/.conda/envs/py39/lib/python3.9/site-packages/torch/_meta_registrations.py", line 8, in <module>
+    from torch._decomp import (
+  File "/hpc2hdd/home/pdong212/.conda/envs/py39/lib/python3.9/site-packages/torch/_decomp/__init__.py", line 190, in <module>
+    import torch._decomp.decompositions
+  File "/hpc2hdd/home/pdong212/.conda/envs/py39/lib/python3.9/site-packages/torch/_decomp/decompositions.py", line 10, in <module>
+    import torch._prims as prims
+  File "/hpc2hdd/home/pdong212/.conda/envs/py39/lib/python3.9/site-packages/torch/_prims/__init__.py", line 2968, in <module>
+    register_debug_prims()
+  File "/hpc2hdd/home/pdong212/.conda/envs/py39/lib/python3.9/site-packages/torch/_prims/debug_prims.py", line 41, in register_debug_prims
+    def load_tensor_factory(name, size, stride, dtype, device):
+  File "/hpc2hdd/home/pdong212/.conda/envs/py39/lib/python3.9/site-packages/torch/_custom_op/impl.py", line 330, in inner
+    self._register_impl("factory", f)
+  File "/hpc2hdd/home/pdong212/.conda/envs/py39/lib/python3.9/site-packages/torch/_custom_op/impl.py", line 221, in _register_impl
+    frame = inspect.getframeinfo(sys._getframe(stacklevel))
+  File "/hpc2hdd/home/pdong212/.conda/envs/py39/lib/python3.9/inspect.py", line 1491, in getframeinfo
+    lines, lnum = findsource(frame)
+  File "/hpc2hdd/home/pdong212/.conda/envs/py39/lib/python3.9/inspect.py", line 829, in findsource
+    module = getmodule(object, file)
+  File "/hpc2hdd/home/pdong212/.conda/envs/py39/lib/python3.9/inspect.py", line 755, in getmodule
+    os.path.realpath(f)] = module.__name__
+  File "/hpc2hdd/home/pdong212/.conda/envs/py39/lib/python3.9/posixpath.py", line 391, in realpath
+    path, ok = _joinrealpath(filename[:0], filename, {})
+  File "/hpc2hdd/home/pdong212/.conda/envs/py39/lib/python3.9/posixpath.py", line 425, in _joinrealpath
+    if not islink(newpath):
+  File "/hpc2hdd/home/pdong212/.conda/envs/py39/lib/python3.9/posixpath.py", line 167, in islink
+    st = os.lstat(path)
+KeyboardInterrupt
+Traceback (most recent call last):
+  File "/hpc2hdd/home/pdong212/.conda/envs/py39/bin/deepspeed", line 6, in <module>
+    main()
+  File "/hpc2hdd/home/pdong212/.conda/envs/py39/lib/python3.9/site-packages/deepspeed/launcher/runner.py", line 570, in main
+    result.wait()
+  File "/hpc2hdd/home/pdong212/.conda/envs/py39/lib/python3.9/subprocess.py", line 1185, in wait
+    return self._wait(timeout=timeout)
+  File "/hpc2hdd/home/pdong212/.conda/envs/py39/lib/python3.9/subprocess.py", line 1915, in _wait
+    (pid, sts) = self._try_wait(0)
+  File "/hpc2hdd/home/pdong212/.conda/envs/py39/lib/python3.9/subprocess.py", line 1873, in _try_wait
+    (pid, sts) = os.waitpid(self.pid, wait_flags)
+KeyboardInterrupt

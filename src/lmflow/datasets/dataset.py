@@ -298,14 +298,14 @@ class Dataset:
             for key in hf_dict.keys():
                 first_key = key
                 break
-
+            from tqdm import trange
             if first_key is not None:
                 num_instances = len(hf_dict[first_key])
                 dict_obj[KEY_INSTANCES] = [
                     {
                         key: hf_dict[key][i] for key in hf_dict.keys()
                     }
-                    for i in range(num_instances)
+                    for i in trange(num_instances)
                 ]
 
             return dict_obj

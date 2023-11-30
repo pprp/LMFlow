@@ -2,11 +2,11 @@
 # Please run this script under ${project_id} in project directory of
 
 # Parses arguments
-model_name_or_path=/data/yrb/tmp/Chat-Musician/model/checkpoints/pt_0920/llama2_origin_hf_dir
+model_name_or_path=/hpc2hdd/JH_DATA/share/xliu886/xliu886_xliu886_share_models/Llama-2-13b-hf
 # NousResearch/Llama-2-7b-chat-hf
-dataset_path=data/
-output_dir=output_models/finetune
-deepspeed_args="--master_port=11001 --include localhost:4"
+dataset_path=data/pretrain
+output_dir=output_models/pretrain
+deepspeed_args="--master_port=11001 --include localhost:0,1"
 
 while [[ $# -ge 1 ]]; do
   key="$1"
@@ -48,7 +48,7 @@ deepspeed ${deepspeed_args} \
     --num_train_epochs 1.5 \
     --learning_rate 1e-4 \
     --block_size 512 \
-    --per_device_train_batch_size 1 \
+    --per_device_train_batch_size 6 \
     --use_lora 1 \
     --lora_r 8 \
     --save_aggregated_lora 0\
@@ -60,6 +60,6 @@ deepspeed ${deepspeed_args} \
     --do_train \
     --ddp_timeout 72000 \
     --save_steps 5000 \
-    --dataloader_num_workers 1 \
+    --dataloader_num_workers 2 \
     | tee ${log_dir}/train.log \
     2> ${log_dir}/train.err

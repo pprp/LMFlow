@@ -9,6 +9,7 @@ import deepspeed
 import sys
 import numpy as np
 import datetime
+from tqdm import tqdm
 import json
 # TODO: remove later
 from accelerate import Accelerator
@@ -317,12 +318,27 @@ class Evaluator(BasePipeline):
         return np.sum(correct_number_list) / data_size
 
     def _evaluate_ppl(self, model, dataset: Dataset, verbose=True):
+        # breakpoint()
         data_dict = dataset.to_dict()
+        print("finish dict")
         if data_dict['type'] == 'text2text':
             raise NotImplementedError("ppl evaluation is currently not supported for text2text dataset, please use text_only dataset.")
         texts = [ instance["text"] for instance in data_dict["instances"] ]
-        encodings = model.get_tokenizer()("\n\n".join(texts), return_tensors="pt")
+        # breakpoint()
+        encodings = {"input_ids":[], "attention_mask":[]}
+        tokenizer =  model.get_tokenizer()
+        for text in tqdm(texts, desc="Tokenizing"):
+            cur_encoding = tokenizer(text, return_tensors="pt")
+            encodings["input_ids"].extend(cur_encoding["input_ids"])
+            encodings["attention_mask"].extend(cur_encoding["attention_mask"])
+        # breakpoint()
+        encodings["input_ids"] = torch.cat(encodings["input_ids"],dim=0)
+        encodings["attention_mask"] = torch.cat(encodings["attention_mask"], dim=0)
+
+        # encodings = model.get_tokenizer()("\n\n".join(texts), return_tensors="pt")
+        print("Finsh load tokenizer")
         # Define some constant
+        print('truncate !!')
         if self.model_args.truncate_to_model_max_length:
             try:
                 max_length = min(model.get_backend_model().config.n_positions, model.get_max_length())
@@ -333,16 +349,21 @@ class Evaluator(BasePipeline):
         
         if verbose:
             print(f"The maximum sequence length : {max_length}")
-        seq_len = encodings.input_ids.size(1)
+        # seq_len = encodings.input_ids.size(1)
+        seq_len = len(encodings["input_ids"])
+
 
         nlls = []
         prev_end_loc = 0
         for begin_loc in range(0, seq_len, self.block_size):
             end_loc = min(begin_loc + max_length, seq_len)
             trg_len = end_loc - prev_end_loc  # may be different from block_size on last loop
-            input_ids = encodings.input_ids[:, begin_loc:end_loc].to(device=self.local_rank)
+            input_ids = encodings["input_ids"][begin_loc:end_loc].to(device=self.local_rank)
+            input_ids = input_ids.view([1,-1])
             target_ids = input_ids.clone()
-            target_ids[:, :-trg_len] = -100
+            target_ids = target_ids.view([1,-1])
+
+            target_ids[:-trg_len] = -100
 
             with torch.no_grad():
                 outputs = model.get_backend_model()(input_ids, labels=target_ids)

@@ -40,6 +40,7 @@ model = AutoModel.get_model(
     ds_config=ds_config, 
     use_accelerator=pipeline_args.use_accelerator_for_evaluator
 )
+print('dataset!!!!')
 dataset = Dataset(data_args)
 
 evaluator = AutoPipeline.get_pipeline(
@@ -48,4 +49,6 @@ evaluator = AutoPipeline.get_pipeline(
     data_args=data_args,
     pipeline_args=pipeline_args,
 )
-evaluator.evaluate(model=model, dataset=dataset, metric=pipeline_args.metric)
+
+print("evaluator!!!")
+evaluator.evaluate(model=model, dataset=dataset, metric=pipeline_args.metric, verbose=True)
