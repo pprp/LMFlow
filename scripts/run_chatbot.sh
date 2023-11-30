@@ -1,7 +1,7 @@
 #!/bin/bash
 
-model=gpt2
-lora_args=""
+model="output_models/merged_lora"
+lora_args=
 if [ $# -ge 1 ]; then
   model=$1
 fi
