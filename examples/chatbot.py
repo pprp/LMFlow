@@ -27,7 +27,7 @@ warnings.filterwarnings("ignore")
 @dataclass
 class ChatbotArguments:
     prompt_structure: Optional[str] = field(
-        default="{input_text}",
+        default="User: {input_text}",
         metadata={
             "help": "prompt structure given user's input text"
         },
@@ -120,7 +120,7 @@ def main():
         print("Bot: ", end="")
         print_index = 0
 
-        token_per_step = 4
+        token_per_step = 30
 
         for response, flag_break in inferencer.stream_inference(
             context=context,

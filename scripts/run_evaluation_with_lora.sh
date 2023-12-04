@@ -14,7 +14,7 @@ CUDA_VISIBLE_DEVICES=0 \
 deepspeed ${deepspeed_args} \
     examples/evaluation.py \
     --answer_type text \
-    --model_name_or_path /hpc2hdd/JH_DATA/share/xliu886/xliu886_xliu886_share_models/Llama-2-13b-hf \
+    --model_name_or_path /hpc2hdd/JH_DATA/share/xliu886/xliu886_xliu886_share_models/Llama-2-7b-hf \
     --lora_model_path output_models/pretrain \
     --dataset_path data/pretrain_test \
     --prompt_structure "Input: {input}" \

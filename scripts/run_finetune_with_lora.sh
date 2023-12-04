@@ -4,9 +4,9 @@
 # Parses arguments
 model_name_or_path=/hpc2hdd/JH_DATA/share/xliu886/xliu886_xliu886_share_models/Llama-2-13b-hf
 # NousResearch/Llama-2-7b-chat-hf
-dataset_path=data/pretrain
-output_dir=output_models/pretrain
-deepspeed_args="--master_port=11001 --include localhost:0,1"
+dataset_path=data/finetune
+output_dir=output_models/chatbotv2
+deepspeed_args="--master_port=11001 --include localhost:0"
 
 while [[ $# -ge 1 ]]; do
   key="$1"
@@ -51,6 +51,7 @@ deepspeed ${deepspeed_args} \
     --per_device_train_batch_size 6 \
     --use_lora 1 \
     --lora_r 8 \
+    --lora_model_path ./output_models/pretrain \
     --save_aggregated_lora 0\
     --deepspeed configs/ds_config_zero2.json \
     --fp16 \
