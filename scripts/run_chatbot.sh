@@ -1,7 +1,7 @@
 #!/bin/bash
 
 model="/hpc2hdd/home/pdong212/workspace/share_models/Llama-2-13b-hf"
-lora_args="--lora_model_path /hpc2hdd/home/pdong212/workspace/LMFlow/output_models/pretrain"
+lora_args="--lora_model_path /hpc2hdd/home/pdong212/workspace/LMFlow/output_models/chatbotv3"
 if [ $# -ge 1 ]; then
   model=$1
 fi

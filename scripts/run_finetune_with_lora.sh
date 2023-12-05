@@ -5,7 +5,7 @@
 model_name_or_path=/hpc2hdd/JH_DATA/share/xliu886/xliu886_xliu886_share_models/Llama-2-13b-hf
 # NousResearch/Llama-2-7b-chat-hf
 dataset_path=data/finetune
-output_dir=output_models/chatbotv2
+output_dir=output_models/chatbotv3
 deepspeed_args="--master_port=11001 --include localhost:0"
 
 while [[ $# -ge 1 ]]; do
@@ -45,7 +45,7 @@ deepspeed ${deepspeed_args} \
     --model_name_or_path ${model_name_or_path} \
     --dataset_path ${dataset_path} \
     --output_dir ${output_dir} --overwrite_output_dir \
-    --num_train_epochs 1.5 \
+    --num_train_epochs 2 \
     --learning_rate 1e-4 \
     --block_size 512 \
     --per_device_train_batch_size 6 \
