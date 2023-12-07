@@ -2,10 +2,10 @@
 # Please run this script under ${project_id} in project directory of
 
 # Parses arguments
-model_name_or_path=gpt2
-dataset_path=data/alpaca/train
-output_dir=output_models/finetune
-deepspeed_args="--master_port=11000"
+model_name_or_path=/hpc2hdd/home/pdong212/workspace/share_models/Llama-2-7b-hf
+dataset_path=data/finetune
+output_dir=output_models/finetune_chatbotv4
+deepspeed_args="--master_port=11010  --include localhost:0,1"
 
 while [[ $# -ge 1 ]]; do
   key="$1"
@@ -34,7 +34,7 @@ while [[ $# -ge 1 ]]; do
 done
 
 # Finetune
-exp_id=finetune_with_lora
+exp_id=finetune_with_lora_chatbotv4
 project_dir=$(cd "$(dirname $0)"/..; pwd)
 log_dir=${project_dir}/log/${exp_id}
 mkdir -p ${output_dir} ${log_dir}
@@ -44,7 +44,7 @@ deepspeed ${deepspeed_args} \
     --model_name_or_path ${model_name_or_path} \
     --dataset_path ${dataset_path} \
     --output_dir ${output_dir} --overwrite_output_dir \
-    --num_train_epochs 0.01 \
+    --num_train_epochs 1 \
     --learning_rate 1e-4 \
     --block_size 512 \
     --per_device_train_batch_size 1 \

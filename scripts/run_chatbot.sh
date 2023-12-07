@@ -1,7 +1,7 @@
 #!/bin/bash
 
 model="/hpc2hdd/home/pdong212/workspace/share_models/Llama-2-13b-hf"
-lora_args="--lora_model_path /hpc2hdd/home/pdong212/workspace/LMFlow/output_models/chatbotv3"
+lora_args="--lora_model_path /hpc2hdd/home/pdong212/workspace/LMFlow/output_models/chatbotv2"
 if [ $# -ge 1 ]; then
   model=$1
 fi
@@ -16,6 +16,7 @@ CUDA_VISIBLE_DEVICES=0 \
       --deepspeed configs/ds_config_chatbot.json \
       --model_name_or_path ${model} \
       --max_new_tokens 512 \
+      --temperature 0 \
       --end_string "###" \
       --prompt_structure "### User:{input_text} ### Agent:" \
       ${lora_args}
